@@ -1418,6 +1418,8 @@ bool gputop_server_run(void)
     int r;
     char *port_env;
     unsigned long port;
+    char *chrome_env;
+    bool port_opened = false;
 
     list_inithead(&streams);
     list_inithead(&closing_streams);
@@ -1435,6 +1437,18 @@ bool gputop_server_run(void)
     if (!port_env)
         port_env = "7890";
     port = strtoul(port_env, NULL, 10);
+
+    chrome_env = getenv("CHROME_OPEN");
+    if (chrome_env && !port_opened) {
+    	char *iptable_bash = (char *) malloc(sizeof(char) * 64);
+    	strcat(iptable_bash, "iptables -A INPUT -p tcp --dport ");
+    	strcat(iptable_bash, port_env);
+    	strcat(iptable_bash, " -j ACCEPT");
+    	printf("\n\n %s \n\n ", iptable_bash);
+    	system(iptable_bash);
+    	free(iptable_bash);
+	port_opened = true;
+    }
 
     uv_ip6_addr("::", port, &sockaddr);
     if ((r = uv_tcp_bind(&listener, (struct sockaddr *)&sockaddr, sizeof(sockaddr))) != 0) {

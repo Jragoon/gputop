@@ -414,6 +414,7 @@ main (int argc, char **argv)
 #define GPUTOP_SCISSOR_TEST     (CHAR_MAX + 7)
 #define PORT_OPT                (CHAR_MAX + 8)
 #define DISABLE_OACONFIG        (CHAR_MAX + 9)
+#define CHROME_OPEN_PORT_OPT	(CHAR_MAX + 10)
 
     /* The initial '+' means that getopt will stop looking for
      * options after the first non-option argument. */
@@ -424,6 +425,7 @@ main (int argc, char **argv)
         {"fake",            no_argument,        0, FAKE_OPT},
         {"disable-ioctl-intercept", optional_argument,  0, DISABLE_IOCTL_OPT},
         {"disable-oaconfig", optional_argument,  0, DISABLE_OACONFIG},
+        {"chrome",	    no_argument,	0, CHROME_OPEN_PORT_OPT},
 #ifdef SUPPORT_GL
         {"libgl",                   optional_argument,  0, LIB_GL_OPT},
         {"libegl",                  optional_argument,  0, LIB_EGL_OPT},
@@ -480,6 +482,9 @@ main (int argc, char **argv)
 #endif
             case PORT_OPT:
                 setenv("GPUTOP_PORT", optarg, true);
+                break;
+	    case CHROME_OPEN_PORT_OPT:
+		setenv("CHROME_OPEN", "1", true);
                 break;
             default:
                 fprintf(stderr, "Internal error: "
@@ -583,6 +588,7 @@ main (int argc, char **argv)
                fprintf(stderr, "%s ", args[i]);
         fprintf(stderr, "\n\n%s\n", strerror(err));
     }
+
 
     return 0;
 }
