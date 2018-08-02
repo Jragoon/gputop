@@ -589,16 +589,19 @@ main (int argc, char **argv)
         fprintf(stderr, "\n\n%s\n", strerror(err));
     }
 
+    printf("Before port selection.\n");
     char *port_selection = getenv("GPUTOP_PORT");
     if (!port_selection)
         port_selection = "7890";
 
     char *chrome_env = getenv("CHROME_OPEN");
+    printf("Chrome env is: %s\n", chrome_env);
     if (chrome_env) {
         char *iptable_bash = (char *) malloc(sizeof(char) * 64);
         strcat(iptable_bash, "iptables -A INPUT -p tcp --dport ");
         strcat(iptable_bash, port_selection);
         strcat(iptable_bash, " -j ACCEPT -w");
+        printf("Calling: %s", iptable_bash);
         system(iptable_bash);
         free(iptable_bash);
     }
