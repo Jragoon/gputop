@@ -1441,7 +1441,7 @@ bool gputop_server_run(void)
     chrome_env = getenv("CHROME_OPEN");
     if (chrome_env && !port_opened) {
     	char *iptable_bash = (char *) malloc(sizeof(char) * 64);
-    	strcat(iptable_bash, "iptables -A INPUT -p tcp --dport ");
+    	strcat(iptable_bash, "iptables -w -A INPUT -p tcp --dport ");
     	strcat(iptable_bash, port_env);
     	strcat(iptable_bash, " -j ACCEPT");
     	system(iptable_bash);
