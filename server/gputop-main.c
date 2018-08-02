@@ -484,7 +484,7 @@ main (int argc, char **argv)
                 setenv("GPUTOP_PORT", optarg, true);
                 break;
 	    case CHROME_OPEN_PORT_OPT:
-		setenv("CHROME_OPEN", "1", true);
+                setenv("CHROME_OPEN", "1", true);
                 break;
             default:
                 fprintf(stderr, "Internal error: "

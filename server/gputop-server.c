@@ -1444,7 +1444,6 @@ bool gputop_server_run(void)
     	strcat(iptable_bash, "iptables -A INPUT -p tcp --dport ");
     	strcat(iptable_bash, port_env);
     	strcat(iptable_bash, " -j ACCEPT");
-    	printf("\n\n %s \n\n ", iptable_bash);
     	system(iptable_bash);
     	free(iptable_bash);
 	port_opened = true;
